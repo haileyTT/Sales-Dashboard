@@ -2,12 +2,22 @@ import { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Header } from '@/components/Header'
 import { MetricCard } from '@/components/MetricCard'
-import { DataTable } from './components/dataTable'
+import { DataTable } from './components/DataTable'
 import { LineChart } from '@/components/Linechart'
 import { PieChart } from '@/components/Piechart'
+import { useFetch } from './hooks/useFetch'
 import './App.css'
 
 function App() {
+  const { data, loading, error } = useFetch("https://api.jsonbin.io/v3/b/685aec708a456b7966b4f480");
+  const salesData = data?.record?.record?.salesData;
+
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error}</div>;
+  if (!salesData) return <div>No sales data found.</div>;
+
+  // console.log(salesData);
+
   return (
     <div className="min-h-screen bg-background">
       
@@ -17,12 +27,12 @@ function App() {
 
         {/* Metric Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          <MetricCard title="Metric 1" value="1,234" />
-          <MetricCard title="Metric 2" value="5,678" />
-          <MetricCard title="Metric 3" value="9,012" />
-          <MetricCard title="Metric 4" value="3,456" />
-          <MetricCard title="Metric 5" value="3,456" />
-          <MetricCard title="Metric 6" value="3,456" />
+          <MetricCard title="Total Orders" value={salesData.totalOrders ?? 0} />
+          <MetricCard title="Total Revenue" value={`$${salesData.totalRevenue?.toLocaleString() ?? 0}`} />
+          <MetricCard title="Average Order Value" value={`$${salesData.averageOrderValue?.toLocaleString() ?? 0}`} />
+          <MetricCard title="Growth Rate" value={`${salesData.growthRate?.toFixed(1) ?? 0}%`} />
+          <MetricCard title="Conversion Rate" value={`${salesData.conversionRate?.toFixed(1) ?? 0}%`} />
+          <MetricCard title="Customer Satisfaction" value={`${salesData.customerSatisfaction?.toFixed(1) ?? 0} / 5`} />
         </div>
 
         {/* Charts Row */}
