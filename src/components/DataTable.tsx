@@ -22,6 +22,9 @@ function DataTable({
     <Card className="mb-6">
       <CardHeader>
         <div className="flex flex-col space-y-4">
+          {/* Title Row */}
+          <CardTitle className="text-xl font-bold text-gray-600">{title}</CardTitle>
+
           {/* Filters Row */}
           <DataTableFilters
             columns={columns}
@@ -30,9 +33,6 @@ function DataTable({
             showDateFilter={showDateFilter}
             onFiltersChange={setFilteredRows}
           />
-
-          {/* Title Row */}
-          <CardTitle className="text-xl font-bold text-gray-600">{title}</CardTitle>
         </div>
       </CardHeader>
       <CardContent>

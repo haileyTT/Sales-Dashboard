@@ -1,4 +1,3 @@
-import * as React from "react";
 import { PieChart, Pie, Cell, Tooltip, Legend, ResponsiveContainer } from "recharts";
 import type { PieChartProps, CustomTooltipProps } from '@/types/data';
 

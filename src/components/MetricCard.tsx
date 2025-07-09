@@ -11,7 +11,7 @@ function MetricCard({ title, value }: MetricCardProps) {
         <div className="text-2xl font-bold bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent">
           {value}
         </div>
-        <div className="h-1 w-full bg-gray-400 rounded-full mt-2"></div>
+        <div className="h-1 w-full bg-indigo-400 rounded-full mt-2"></div>
       </CardContent>
     </Card>
   )

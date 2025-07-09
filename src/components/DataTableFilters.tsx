@@ -98,12 +98,12 @@ function DataTableFilters({
       <div className="flex flex-col items-end space-y-2">
         {/* Status Filter */}
         {showStatusFilter && statusOptions.length > 0 && (
-          <div className="flex items-center space-x-2">
+          <div className="flex items-center space-x-1 text-xs">
             <label className="text-sm font-medium">Status:</label>
             <select
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
-              className="border border-input bg-background px-3 py-1 text-sm rounded-md"
+              className="border border-input bg-background px-2 py-1 text-sm rounded-md"
             >
               <option value="all">All Status</option>
               {statusOptions.map((status) => (
