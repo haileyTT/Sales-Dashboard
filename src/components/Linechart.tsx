@@ -32,7 +32,9 @@ function LineChartMonthlyRevenue({ data }: LineChartProps) {
           margin={{ top: 20, right: 20, left: 10, bottom: 20 }}
         >
           <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
-          <XAxis dataKey="month" tick={{ fontSize: 12 }} />
+          <XAxis dataKey="month"
+            interval={0} 
+            tick={{ fontSize: 12 }} />
           <YAxis
             tickFormatter={(v) => `$${v.toLocaleString()}`}
             tick={{ fontSize: 12 }}
