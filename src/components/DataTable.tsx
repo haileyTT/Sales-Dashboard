@@ -10,26 +10,39 @@ type DataTableProps = {
 };
 
 const DataTable: React.FC<DataTableProps> = ({ title, columns, rows }) => (
-  <div className="table-section">
-    <table className="dashboard-table">
-      <thead>
-        <tr>
-          {columns.map((col) => (
-            <th key={col}>{col}</th>
-          ))}
-        </tr>
-      </thead>
-      <tbody>
-        {rows.map((row, i) => (
-          <tr key={i}>
-            {row.map((cell, j) => (
-              <td key={j}>{cell}</td>
+  <Card className="mb-6">
+    <CardHeader>
+      <CardTitle>{title}</CardTitle>
+    </CardHeader>
+    <CardContent>
+      <Table>
+        <TableHeader>
+          <TableRow>
+            {columns.map((column) => (
+              <TableHead key={column}>{column}</TableHead>
             ))}
-          </tr>
-        ))}
-      </tbody>
-    </table>
-  </div>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {rows.map((row, i) => (
+            <TableRow key={i}>
+              {row.map((cell, j) => (
+                <TableCell key={j}>
+                  {typeof cell === 'string' && cell.toLowerCase().includes('status') ? (
+                    <Badge variant={cell.toLowerCase() === 'completed' ? 'default' : 'secondary'}>
+                      {cell}
+                    </Badge>
+                  ) : (
+                    cell
+                  )}
+                </TableCell>
+              ))}
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </CardContent>
+  </Card>
 );
 
 export default DataTable; 

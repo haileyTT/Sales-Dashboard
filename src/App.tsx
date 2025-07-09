@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Header } from '@/components/Header'
 import { MetricCard } from '@/components/MetricCard'
-import { DataTable } from './components/DataTable'
+import DataTable from './components/DataTable'
 import { LineChart } from '@/components/Linechart'
 import { PieChart } from '@/components/Piechart'
 import { useFetch } from './hooks/useFetch'
@@ -17,6 +17,7 @@ function App() {
   if (!salesData) return <div>No sales data found.</div>;
 
   // console.log(salesData);
+  // data for tables 
   const recentOrdersRows = salesData.recentOrders.map((o: any) => [
     o.id,
     o.customer,
@@ -24,6 +25,12 @@ function App() {
     o.status.charAt(0).toUpperCase() + o.status.slice(1),
     o.date
   ]);
+
+  const topProductsRows = salesData.topProducts?.map((p: any) => [
+    p.name,
+    `$${p.sales.toLocaleString()}`,
+    p.units
+  ]) || [];
 
   return (
     <div className="min-h-screen bg-background">
@@ -53,6 +60,11 @@ function App() {
             title="Recent Orders"
             columns={["Order ID", "Customer", "Amount", "Status", "Date"]}
             rows={recentOrdersRows}
+        />
+        <DataTable
+          title="Top Products"
+          columns={["Product", "Sales", "Units"]}
+          rows={topProductsRows}
         />
 
         {/* Action Buttons */}
