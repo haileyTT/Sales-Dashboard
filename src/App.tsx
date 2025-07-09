@@ -32,7 +32,7 @@ function App() {
   ]) || [];
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background font-sans bg-gray-100">
       
       <main className="container mx-auto px-4 py-8">
         <Header />
@@ -48,10 +48,10 @@ function App() {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6 mb-8">
-          <div className="chart-left">
+          <div className="chart-left bg-white p-4 rounded-lg shadow-md min-h-[360px]">
             <LineChart data={salesData.monthlySales ?? []} />
           </div>
-          <div className="chart-right">
+          <div className="chart-right bg-white p-4 rounded-lg shadow-md min-h-[360px]">
             <PieChart data={salesData.salesByCategory ?? []} />
           </div>
         </div>

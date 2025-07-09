@@ -9,7 +9,7 @@ type Props = {
 
 const PieChartSalesByCategory: React.FC<Props> = ({ data }) => (
   <div style={{ width: "100%", height: 300 }}>
-    <p className="chart-title">Sales by Category</p>
+    <p className="chart-title text-lg font-bold text-gray-600 text-center">Sales by Category</p>
     <ResponsiveContainer>
       <PieChart>
         <Pie

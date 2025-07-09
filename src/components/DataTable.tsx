@@ -2,7 +2,6 @@ import React, { useState, useMemo } from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { Badge } from '@/components/ui/badge'
-import { Button } from '@/components/ui/button'
 
 type DataTableProps = {
   title: string;
@@ -47,7 +46,7 @@ const DataTable: React.FC<DataTableProps> = ({ title, columns, rows, showStatusF
     <Card className="mb-6">
       <CardHeader>
         <div className="flex justify-between items-center">
-          <CardTitle>{title}</CardTitle>
+          <CardTitle className="text-xl font-bold text-gray-600">{title}</CardTitle>
           {showStatusFilter && statusOptions.length > 0 && (
             <div className="flex items-center space-x-2">
               <label className="text-sm font-medium">Filter by status:</label>
@@ -69,7 +68,7 @@ const DataTable: React.FC<DataTableProps> = ({ title, columns, rows, showStatusF
       </CardHeader>
       <CardContent>
         <Table>
-          <TableHeader>
+          <TableHeader className="bg-gray-100">
             <TableRow>
               {columns.map((column) => (
                 <TableHead key={column}>{column}</TableHead>

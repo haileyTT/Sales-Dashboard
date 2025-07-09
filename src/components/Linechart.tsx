@@ -15,7 +15,7 @@ type Props = {
 
 const LineChartMonthlyRevenue: React.FC<Props> = ({ data }) => (
   <div style={{ width: "100%", height: 300 }}>
-    <p className="chart-title">Monthly Sales</p>
+    <p className="chart-title text-lg font-bold text-gray-600 text-center">Monthly Sales</p>
     <ResponsiveContainer>
       <LineChart
         data={data}
