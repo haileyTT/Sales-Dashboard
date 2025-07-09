@@ -16,7 +16,6 @@ function App() {
   if (error) return <div>Error: {error}</div>;
   if (!salesData) return <div>No sales data found.</div>;
 
-  // console.log(salesData);
   // data for tables 
   const recentOrdersRows = salesData.recentOrders.map((o: any) => [
     o.id,
@@ -37,7 +36,6 @@ function App() {
       
       <main className="container mx-auto px-4 py-8">
         <Header />
-
 
         {/* Metric Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
@@ -61,10 +59,11 @@ function App() {
         {/* Data Tables */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6 mb-8">
           <DataTable
-              title="Recent Orders"
-              columns={["Order ID", "Customer", "Amount", "Status", "Date"]}
-              rows={recentOrdersRows}
-          />
+            title="Recent Orders"
+            columns={["Order ID", "Customer", "Amount", "Status", "Date"]}
+            rows={recentOrdersRows}
+            showStatusFilter={true}
+        />
           <DataTable
             title="Top Products"
             columns={["Product", "Sales", "Units"]}
@@ -75,8 +74,6 @@ function App() {
         {/* Action Buttons */}
         <div className="flex space-x-4">
           <Button>Primary Action</Button>
-          <Button variant="outline">Secondary Action</Button>
-          <Button variant="outline">Tertiary Action</Button>
         </div>
       </main>
     </div>
