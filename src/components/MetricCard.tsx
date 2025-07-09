@@ -1,12 +1,7 @@
-import React from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import type { MetricCardProps } from '@/types/data'
 
-interface MetricCardProps {
-  title: string
-  value: string
-}
-
-export function MetricCard({ title, value }: MetricCardProps) {
+function MetricCard({ title, value }: MetricCardProps) {
   return (
     <Card className="bg-white/80 backdrop-blur-sm border-0 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
@@ -21,3 +16,5 @@ export function MetricCard({ title, value }: MetricCardProps) {
     </Card>
   )
 }
+
+export default MetricCard;
