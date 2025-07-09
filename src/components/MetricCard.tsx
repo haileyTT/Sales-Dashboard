@@ -14,7 +14,6 @@ export function MetricCard({ title, value }: MetricCardProps) {
       </CardHeader>
       <CardContent>
         <div className="text-2xl font-bold">{value}</div>
-        <p className="text-xs text-muted-foreground">Sample metric data</p>
       </CardContent>
     </Card>
   )

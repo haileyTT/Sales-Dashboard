@@ -17,6 +17,13 @@ function App() {
   if (!salesData) return <div>No sales data found.</div>;
 
   // console.log(salesData);
+  const recentOrdersRows = salesData.recentOrders.map((o: any) => [
+    o.id,
+    o.customer,
+    `$${o.amount.toLocaleString()}`,
+    o.status.charAt(0).toUpperCase() + o.status.slice(1),
+    o.date
+  ]);
 
   return (
     <div className="min-h-screen bg-background">
@@ -41,10 +48,12 @@ function App() {
           <PieChart title="Pie Chart" />
         </div>
 
-        {/* Data Table */}
-        <div className="mb-8">
-          <DataTable title="Data Table" />
-        </div>
+        {/* Data Tables */}
+        <DataTable
+            title="Recent Orders"
+            columns={["Order ID", "Customer", "Amount", "Status", "Date"]}
+            rows={recentOrdersRows}
+        />
 
         {/* Action Buttons */}
         <div className="flex space-x-4">
