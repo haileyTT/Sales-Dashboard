@@ -38,7 +38,7 @@ function PieChartSalesByCategory({ data }: PieChartProps) {
             {data.map((_, index) => (
               <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
             ))}
-          </Pie>
+          </Pie> 
           <Tooltip content={<CustomTooltip />} />
           <Legend />
         </PieChart>

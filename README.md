@@ -65,13 +65,8 @@ I chose **Recharts** for its:
 
 It let me quickly build clean, readable charts with minimal config.
 
-
-## Screenshots
-
-
-
 ## Deployment
-
+https://hailey-sales-dashboard.netlify.app/
 
 
 

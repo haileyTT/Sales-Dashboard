@@ -13,27 +13,13 @@ function DataTableFilters({
   const [startDate, setStartDate] = useState<string>('');
   const [endDate, setEndDate] = useState<string>('');
 
-  // Get unique status values from the data
-  const statusOptions = useMemo(() => {
-    if (!showStatusFilter) return [];
-    const statusColumnIndex = columns.findIndex(col => col.toLowerCase().includes('status'));
-    if (statusColumnIndex === -1) return [];
-    
-    const statuses = new Set<string>();
-    rows.forEach(row => {
-      const status = row[statusColumnIndex];
-      if (typeof status === 'string') {
-        statuses.add(status);
-      }
-    });
-    return Array.from(statuses);
-  }, [columns, rows, showStatusFilter]);
+  // Assume status options are always the same
+  const statusOptions = ['completed', 'processing', 'shipped'];
 
   // Find date column index
-  const dateColumnIndex = useMemo(() => {
-    if (!showDateFilter) return -1;
-    return columns.findIndex(col => col.toLowerCase().includes('date'));
-  }, [columns, showDateFilter]);
+  const dateColumnIndex = showDateFilter
+    ? columns.findIndex(col => col.toLowerCase().includes('date'))
+    : -1;
 
   // Filter rows based on status and date range
   const filteredRows = useMemo(() => {
@@ -55,7 +41,7 @@ function DataTableFilters({
       filtered = filtered.filter(row => {
         const dateValue = row[dateColumnIndex];
         if (!dateValue) return false;
-        
+
         const rowDate = new Date(String(dateValue));
         if (isNaN(rowDate.getTime())) return false;
 
@@ -69,7 +55,7 @@ function DataTableFilters({
         } else if (end) {
           return rowDate <= end;
         }
-        
+
         return true;
       });
     }
@@ -94,7 +80,7 @@ function DataTableFilters({
   }
 
   return (
-    <div className="flex justify-end">
+    <div className="flex flex-wrap gap-2 w-full justify-end">
       <div className="flex flex-col items-end space-y-2">
         {/* Status Filter */}
         {showStatusFilter && statusOptions.length > 0 && (

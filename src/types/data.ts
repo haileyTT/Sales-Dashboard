@@ -47,7 +47,6 @@ export type TopProductRow = [string, string, number]; // [name, sales, units]
 export type TableRow = RecentOrderRow | TopProductRow;
 
 // Component Props Interfaces
-
 export interface MetricCardProps {
   title: string;
   value: string;

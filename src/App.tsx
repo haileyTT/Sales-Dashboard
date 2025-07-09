@@ -60,7 +60,7 @@ function App() {
         <Header />
 
         {/* Metric Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mb-8">
           <MetricCard title="Total Orders" value={salesData.totalOrders ?? 0} /> 
           <MetricCard title="Total Revenue" value={`$${salesData.totalRevenue?.toLocaleString() ?? 0}`} /> 
           <MetricCard title="Average Order Value" value={`$${salesData.averageOrderValue?.toLocaleString() ?? 0}`} />

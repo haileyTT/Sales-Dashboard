@@ -19,7 +19,7 @@ function DataTable({
   }, [rows]);
 
   return (
-    <Card className="mb-6">
+    <Card className="mb-6 w-full">
       <CardHeader>
         <div className="flex flex-col space-y-4">
           {/* Title Row */}
