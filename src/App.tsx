@@ -70,11 +70,6 @@ function App() {
             rows={topProductsRows}
           />
         </div>
-
-        {/* Action Buttons */}
-        <div className="flex space-x-4">
-          <Button>Primary Action</Button>
-        </div>
       </main>
     </div>
   )
