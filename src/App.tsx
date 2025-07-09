@@ -3,8 +3,8 @@ import { Button } from '@/components/ui/button'
 import { Header } from '@/components/Header'
 import { MetricCard } from '@/components/MetricCard'
 import DataTable from './components/DataTable'
-import { LineChart } from '@/components/Linechart'
-import { PieChart } from '@/components/Piechart'
+import LineChart from '@/components/Linechart'
+import PieChart  from '@/components/Piechart'
 import { useFetch } from './hooks/useFetch'
 import './App.css'
 
@@ -50,9 +50,11 @@ function App() {
         </div>
 
         {/* Charts Row */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
-          <LineChart title="Line Chart" />
-          <PieChart title="Pie Chart" />
+        <div className="chart-left">
+          <LineChart data={salesData.monthlySales ?? []} />
+        </div>
+        <div className="chart-right">
+          <PieChart data={salesData.salesByCategory ?? []} />
         </div>
 
         {/* Data Tables */}
