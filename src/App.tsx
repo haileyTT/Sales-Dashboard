@@ -40,7 +40,7 @@ function App() {
 
 
         {/* Metric Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
           <MetricCard title="Total Orders" value={salesData.totalOrders ?? 0} />
           <MetricCard title="Total Revenue" value={`$${salesData.totalRevenue?.toLocaleString() ?? 0}`} />
           <MetricCard title="Average Order Value" value={`$${salesData.averageOrderValue?.toLocaleString() ?? 0}`} />
@@ -49,25 +49,28 @@ function App() {
           <MetricCard title="Customer Satisfaction" value={`${salesData.customerSatisfaction?.toFixed(1) ?? 0} / 5`} />
         </div>
 
-        {/* Charts Row */}
-        <div className="chart-left">
-          <LineChart data={salesData.monthlySales ?? []} />
-        </div>
-        <div className="chart-right">
-          <PieChart data={salesData.salesByCategory ?? []} />
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6 mb-8">
+          <div className="chart-left">
+            <LineChart data={salesData.monthlySales ?? []} />
+          </div>
+          <div className="chart-right">
+            <PieChart data={salesData.salesByCategory ?? []} />
+          </div>
         </div>
 
         {/* Data Tables */}
-        <DataTable
-            title="Recent Orders"
-            columns={["Order ID", "Customer", "Amount", "Status", "Date"]}
-            rows={recentOrdersRows}
-        />
-        <DataTable
-          title="Top Products"
-          columns={["Product", "Sales", "Units"]}
-          rows={topProductsRows}
-        />
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6 mb-8">
+          <DataTable
+              title="Recent Orders"
+              columns={["Order ID", "Customer", "Amount", "Status", "Date"]}
+              rows={recentOrdersRows}
+          />
+          <DataTable
+            title="Top Products"
+            columns={["Product", "Sales", "Units"]}
+            rows={topProductsRows}
+          />
+        </div>
 
         {/* Action Buttons */}
         <div className="flex space-x-4">
