@@ -9,10 +9,19 @@ type DataTableProps = {
   columns: string[];
   rows: React.ReactNode[][];
   showStatusFilter?: boolean;
+  showDateFilter?: boolean;
 };
 
-const DataTable: React.FC<DataTableProps> = ({ title, columns, rows, showStatusFilter = false }) => {
+const DataTable: React.FC<DataTableProps> = ({ 
+  title, 
+  columns, 
+  rows, 
+  showStatusFilter = false,
+  showDateFilter = false 
+}) => {
   const [statusFilter, setStatusFilter] = useState<string>('all');
+  const [startDate, setStartDate] = useState<string>('');
+  const [endDate, setEndDate] = useState<string>('');
 
   // Get unique status values from the data
   const statusOptions = useMemo(() => {
@@ -30,18 +39,60 @@ const DataTable: React.FC<DataTableProps> = ({ title, columns, rows, showStatusF
     return Array.from(statuses);
   }, [columns, rows, showStatusFilter]);
 
-  // Filter rows based on status
+  // Find date column index
+  const dateColumnIndex = useMemo(() => {
+    if (!showDateFilter) return -1;
+    return columns.findIndex(col => col.toLowerCase().includes('date'));
+  }, [columns, showDateFilter]);
+
+  // Filter rows based on status and date range
   const filteredRows = useMemo(() => {
-    if (!showStatusFilter || statusFilter === 'all') return rows;
-    
-    const statusColumnIndex = columns.findIndex(col => col.toLowerCase().includes('status'));
-    if (statusColumnIndex === -1) return rows;
-    
-    return rows.filter(row => {
-      const status = row[statusColumnIndex];
-      return typeof status === 'string' && status.toLowerCase() === statusFilter.toLowerCase();
-    });
-  }, [rows, statusFilter, columns, showStatusFilter]);
+    let filtered = rows;
+
+    // Apply status filter
+    if (showStatusFilter && statusFilter !== 'all') {
+      const statusColumnIndex = columns.findIndex(col => col.toLowerCase().includes('status'));
+      if (statusColumnIndex !== -1) {
+        filtered = filtered.filter(row => {
+          const status = row[statusColumnIndex];
+          return typeof status === 'string' && status.toLowerCase() === statusFilter.toLowerCase();
+        });
+      }
+    }
+
+    // Apply date range filter
+    if (showDateFilter && dateColumnIndex !== -1 && (startDate || endDate)) {
+      filtered = filtered.filter(row => {
+        const dateValue = row[dateColumnIndex];
+        if (!dateValue) return false;
+        
+        const rowDate = new Date(String(dateValue));
+        if (isNaN(rowDate.getTime())) return false;
+
+        const start = startDate ? new Date(startDate) : null;
+        const end = endDate ? new Date(endDate) : null;
+
+        if (start && end) {
+          return rowDate >= start && rowDate <= end;
+        } else if (start) {
+          return rowDate >= start;
+        } else if (end) {
+          return rowDate <= end;
+        }
+        
+        return true;
+      });
+    }
+
+    return filtered;
+  }, [rows, statusFilter, startDate, endDate, columns, showStatusFilter, showDateFilter, dateColumnIndex]);
+
+  // Clear all filters
+  const clearFilters = () => {
+    setStatusFilter('all');
+    setStartDate('');
+    setEndDate('');
+  };
 
   // CSV export function
   const exportToCSV = () => {
@@ -72,29 +123,72 @@ const DataTable: React.FC<DataTableProps> = ({ title, columns, rows, showStatusF
   };
 
   return (
-    <Card className="mb-6">
-      <CardHeader>
-        <div className="flex justify-between items-center">
-          <CardTitle className="text-xl font-bold text-gray-600">{title}</CardTitle>
-          {showStatusFilter && statusOptions.length > 0 && (
-            <div className="flex items-center space-x-2">
-              <label className="text-sm font-medium">Filter by status:</label>
-              <select
-                value={statusFilter}
-                onChange={(e) => setStatusFilter(e.target.value)}
-                className="border border-input bg-background px-3 py-1 text-sm rounded-md"
-              >
-                <option value="all">All Status</option>
-                {statusOptions.map((status) => (
-                  <option key={status} value={status}>
-                    {status}
-                  </option>
-                ))}
-              </select>
-            </div>
-          )}
-        </div>
-      </CardHeader>
+          <Card className="mb-6">
+        <CardHeader>
+          <div className="flex flex-col space-y-4">
+            {/* Filters Row */}
+            {(showStatusFilter || showDateFilter) && (
+              <div className="flex justify-end">
+                <div className="flex flex-col items-end space-y-2">
+                  {/* Status Filter */}
+                  {showStatusFilter && statusOptions.length > 0 && (
+                    <div className="flex items-center space-x-2">
+                      <label className="text-sm font-medium">Status:</label>
+                      <select
+                        value={statusFilter}
+                        onChange={(e) => setStatusFilter(e.target.value)}
+                        className="border border-input bg-background px-3 py-1 text-sm rounded-md"
+                      >
+                        <option value="all">All Status</option>
+                        {statusOptions.map((status) => (
+                          <option key={status} value={status}>
+                            {status}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  )}
+
+                  {/* Date Range Filter */}
+                  {showDateFilter && dateColumnIndex !== -1 && (
+                    <div className="flex items-center space-x-2 text-sm">
+                      <label className="text-xs font-medium">Date Range:</label>
+                      <input
+                        type="date"
+                        value={startDate}
+                        onChange={(e) => setStartDate(e.target.value)}
+                        className="w-[120px] border border-gray-300 dark:border-gray-700 bg-white dark:bg-background px-2 py-1 rounded text-xs"
+                      />
+                      <span className="text-gray-500">to</span>
+                      <input
+                        type="date"
+                        value={endDate}
+                        onChange={(e) => setEndDate(e.target.value)}
+                        className="w-[120px] border border-gray-300 dark:border-gray-700 bg-white dark:bg-background px-2 py-1 rounded text-xs"
+                      />
+                    </div>
+                  )}
+
+                  {/* Clear Filters Button */}
+                  {(showStatusFilter || showDateFilter) && (
+                    <Button
+                      onClick={clearFilters}
+                      variant="outline"
+                      size="sm"
+                      className="text-xs"
+                    >
+                      Clear Filters
+                    </Button>
+                  )}
+                </div>
+              </div>
+            )}
+
+            {/* Title Row */}
+            <CardTitle className="text-xl font-bold text-gray-600">{title}</CardTitle>
+          </div>
+        </CardHeader>
+      
       <CardContent>
         <Table>
           <TableHeader className="bg-gray-100">
@@ -122,7 +216,10 @@ const DataTable: React.FC<DataTableProps> = ({ title, columns, rows, showStatusF
             ))}
           </TableBody>
         </Table>
-        <div className="flex justify-end mt-4">
+        <div className="flex justify-between items-center mt-4">
+          <div className="text-sm text-gray-500">
+            Showing {filteredRows.length} of {rows.length} records
+          </div>
           <Button 
             onClick={exportToCSV}
             variant="outline"

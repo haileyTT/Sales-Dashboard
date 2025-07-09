@@ -1,5 +1,3 @@
-import { useState } from 'react'
-import { Button } from '@/components/ui/button'
 import { Header } from '@/components/Header'
 import { MetricCard } from '@/components/MetricCard'
 import DataTable from './components/DataTable'
@@ -12,9 +10,30 @@ function App() {
   const { data, loading, error } = useFetch("https://api.jsonbin.io/v3/b/685aec708a456b7966b4f480");
   const salesData = data?.record?.record?.salesData;
 
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error}</div>;
-  if (!salesData) return <div>No sales data found.</div>;
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-64 text-gray-500 text-lg">
+        Loading data...
+      </div>
+    );
+  }
+  
+  if (error) {
+    return (
+      <div className="flex justify-center items-center h-64 text-red-600 text-lg font-medium">
+        Error: {error}
+      </div>
+    );
+  }
+  
+  if (!salesData) {
+    return (
+      <div className="flex justify-center items-center h-64 text-gray-400 text-lg italic">
+        No sales data found.
+      </div>
+    );
+  }
+  
 
   // data for tables 
   const recentOrdersRows = salesData.recentOrders.map((o: any) => [
@@ -63,6 +82,7 @@ function App() {
             columns={["Order ID", "Customer", "Amount", "Status", "Date"]}
             rows={recentOrdersRows}
             showStatusFilter={true}
+            showDateFilter={true}
         />
           <DataTable
             title="Top Products"
